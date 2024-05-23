@@ -8,6 +8,15 @@ const BookTable = ({ books, order, orderBy, onRequestSort, isEditing, onEdit, on
     onRequestSort(property);
   };
 
+  const headerCellStyle = {
+    backgroundColor: '#f5f5f5',
+    fontWeight: 'bold',
+    fontSize: '16px',
+    color: '#333',
+    textTransform: 'capitalize',
+    padding: '10px',
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -17,6 +26,7 @@ const BookTable = ({ books, order, orderBy, onRequestSort, isEditing, onEdit, on
               <TableCell
                 key={headCell}
                 sortDirection={orderBy === headCell ? order : false}
+                style={headerCellStyle}
               >
                 <TableSortLabel
                   active={orderBy === headCell}
@@ -115,7 +125,7 @@ const BookTable = ({ books, order, orderBy, onRequestSort, isEditing, onEdit, on
                     <SaveIcon />
                   </IconButton>
                 ) : (
-                  <IconButton onClick={() => onEdit(book)}>
+                  <IconButton onClick={() => onEdit(book.cover_i)}>
                     <EditIcon />
                   </IconButton>
                 )}

@@ -41,7 +41,7 @@ const Dashboard = () => {
           const booksWithAuthors = booksData.map(book => {
             const authorDetail = authorDetailsMap[book.author_name[0]] || {};
             return {
-             ...book,
+              ...book,
               author_birth_date: authorDetail.birth_date || 'N/A',
               author_top_work: authorDetail.top_work || 'N/A',
             };
@@ -67,26 +67,29 @@ const Dashboard = () => {
     setPage(0);
   };
 
-  const handleRequestSort = (property, direction) => {
-    setOrder(direction);
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleEditClick = (index) => {
-    setIsEditing(index);
-    setEditedBook(books[index]);
+  const handleEditClick = (cover_i) => {
+    setIsEditing(cover_i);
+    setEditedBook(books.find(book => book.cover_i === cover_i));
   };
 
   const handleEditChange = (event) => {
     const { name, value } = event.target;
     setEditedBook({
-     ...editedBook,
+      ...editedBook,
       [name]: value,
     });
   };
 
   const handleSaveClick = () => {
-    const updatedBooks = books.map((book, index) => (index === isEditing? editedBook : book));
+    const updatedBooks = books.map((book) =>
+      book.cover_i === isEditing ? editedBook : book
+    );
     setBooks(updatedBooks);
     setIsEditing(null);
   };
@@ -95,10 +98,10 @@ const Dashboard = () => {
     if (orderBy) {
       const isAsc = order === 'asc';
       if (a[orderBy] < b[orderBy]) {
-        return isAsc? -1 : 1;
+        return isAsc ? -1 : 1;
       }
       if (a[orderBy] > b[orderBy]) {
-        return isAsc? 1 : -1;
+        return isAsc ? 1 : -1;
       }
       return 0;
     }
@@ -107,25 +110,26 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>Book Dashboard</h1>
-      <TextField id="searchInput" label="Search Books by Author" variant="outlined" fullWidth margin="normal" onChange={(e) => document.getElementById('searchInput').value = e.target.value} />
-      <Button onClick={() => {
-        setSearchTerm(document.getElementById('searchInput').value);
-        setShouldFetch(true);
-      }}>Search</Button>
-      <CSVLink data={sortedBooks} filename={"books.csv"} className="btn btn-primary" target="_blank">
-        <Button variant="contained" color="primary">Download CSV</Button>
-      </CSVLink>
+      <h1 style={{ textAlign: 'center', margin: '20px 0', fontSize: '34px', fontWeight: 'bold' }}>Book Dashboard</h1>
+      <TextField id="searchInput" label="Search Books by Author" variant="outlined" fullWidth margin="normal" />
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <Button variant="contained" color="primary" onClick={() => {
+          setSearchTerm(document.getElementById('searchInput').value);
+          setShouldFetch(true);
+        }}>Search</Button>
+        <CSVLink data={sortedBooks} filename={"books.csv"} style={{ textDecoration: 'none' }}>
+          <Button variant="contained" color="primary">Download CSV</Button>
+        </CSVLink>
+      </div>
       <BookTable
         books={sortedBooks}
         order={order}
         orderBy={orderBy}
         onRequestSort={handleRequestSort}
-        onEditClick={handleEditClick}
+        onEdit={handleEditClick}
         isEditing={isEditing}
-        editedBook={editedBook}
-        onEditChange={handleEditChange}
-        onSaveClick={handleSaveClick}
+        onChange={handleEditChange}
+        onSave={handleSaveClick}
       />
       <TablePagination
         component="div"

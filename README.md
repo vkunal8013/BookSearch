@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+# Book Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Book Dashboard! This application allows you to search for books by author and view detailed information about the books and their authors. You can also sort the book list, paginate through the results, and download the data as a CSV file.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Search for Books by Author**: Search books by entering the author's name in the search field. The search is case-insensitive but matches the exact author name.
+- **View Book Details**: See a list of books with details including title, author, publication year, subject, ratings, author's birth date, and author's top work.
+- **Sort the Book List**: Click on the table headers to sort the books by any column in ascending or descending order.
+- **Paginate Through Results**: Navigate through the list of books using pagination controls. Change the number of books displayed per page.
+- **Download Data as CSV**: Download the displayed book data as a CSV file for offline analysis.
 
-### `npm start`
+## Accessing the Dashboard
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+You can access the Book Dashboard by visiting the following URL:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+[Book Dashboard on Vercel](<https://book-search-nine.vercel.app/>)
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Step 1: Search for Books by Author
 
-### `npm run build`
+1. Open the Book Dashboard in your web browser.
+2. In the search field labeled "Search Books by Author", enter the name of the author you want to search for. For example, type `Mark Twain` or `J.K. Rowling`.
+3. Click the "Search" button next to the search field.
+4. The dashboard will display a list of books written by the specified author.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Step 2: View Book Details
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. After performing a search, a table of books will be displayed.
+2. Each row in the table represents a book and includes the following details:
+   - **Title**: The title of the book.
+   - **Author Name**: The name of the author.
+   - **First Publish Year**: The year the book was first published.
+   - **Subject**: The subject or genre of the book.
+   - **Ratings Average**: The average rating of the book.
+   - **Author Birth Date**: The birth date of the author.
+   - **Author Top Work**: The most well-known work of the author.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Step 3: Sort the Book List
 
-### `npm run eject`
+1. To sort the book list, click on any column header in the table.
+2. Clicking the header once will sort the column in ascending order.
+3. Clicking the header again will sort the column in descending order.
+4. The active sort column will be highlighted.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Step 4: Paginate Through Results
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. The table displays a limited number of books per page.
+2. Use the pagination controls at the bottom of the table to navigate through the pages:
+   - **Previous Page**: Click to go to the previous page of results.
+   - **Next Page**: Click to go to the next page of results.
+   - **Rows Per Page**: Select the number of rows (books) to display per page from the dropdown menu (10, 25, 50, or 100).
+3. The current page and the total number of records are displayed in the pagination controls.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Step 5: Download Data as CSV
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. To download the displayed book data, click the "Download CSV" button.
+2. A CSV file containing the current book data will be generated and downloaded to your computer.
 
-## Learn More
+## Troubleshooting
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **No Results Found**:
+  - Ensure that the author's name is entered correctly.
+  - Try different variations of the author's name if you receive no results.
+- **Pagination Issues**:
+  - If you notice any discrepancies in the number of records, try reloading the page and performing the search again.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

@@ -13,16 +13,21 @@ const Dashboard = () => {
   const [shouldFetch, setShouldFetch] = useState(false);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
-  const [isEditing, setIsEditing] = useState(null);
-  const [editedBook, setEditedBook] = useState({});
 
   useEffect(() => {
     if (shouldFetch) {
       const fetchBooksAndAuthors = async () => {
         try {
-          const booksResponse = await axios.get(`https://openlibrary.org/search.json?q=${searchTerm}&page=${page + 1}&limit=${rowsPerPage}`);
-          const booksData = booksResponse.data.docs;
-          setTotalRecords(booksResponse.data.numFound);
+          const searchQuery = searchTerm ? `&author=${encodeURIComponent(searchTerm)}` : '';
+          // Fetch more records than needed for pagination
+          const booksResponse = await axios.get(`https://openlibrary.org/search.json?q=${searchTerm}&limit=100`);
+          
+          // Filter records case insensitively for exact match
+          const booksData = booksResponse.data.docs.filter(book => 
+            book.author_name && book.author_name.some(author => author.toLowerCase() === searchTerm.toLowerCase())
+          );
+
+          setTotalRecords(booksData.length);
 
           const authorNames = [...new Set(booksData.map(book => book.author_name).flat())];
 
@@ -60,38 +65,20 @@ const Dashboard = () => {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    setShouldFetch(true);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const value = parseInt(event.target.value, 10);
+    setRowsPerPage(value);
     setPage(0);
+    setShouldFetch(true);
   };
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleEditClick = (cover_i) => {
-    setIsEditing(cover_i);
-    setEditedBook(books.find(book => book.cover_i === cover_i));
-  };
-
-  const handleEditChange = (event) => {
-    const { name, value } = event.target;
-    setEditedBook({
-      ...editedBook,
-      [name]: value,
-    });
-  };
-
-  const handleSaveClick = () => {
-    const updatedBooks = books.map((book) =>
-      book.cover_i === isEditing ? editedBook : book
-    );
-    setBooks(updatedBooks);
-    setIsEditing(null);
   };
 
   const sortedBooks = books.sort((a, b) => {
@@ -108,6 +95,9 @@ const Dashboard = () => {
     return 0;
   });
 
+  // Apply pagination to sorted books
+  const paginatedBooks = sortedBooks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
   return (
     <div>
       <h1 style={{ textAlign: 'center', margin: '20px 0', fontSize: '34px', fontWeight: 'bold' }}>Book Dashboard</h1>
@@ -115,6 +105,7 @@ const Dashboard = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <Button variant="contained" color="primary" onClick={() => {
           setSearchTerm(document.getElementById('searchInput').value);
+          setPage(0);  // Reset to the first page on new search
           setShouldFetch(true);
         }}>Search</Button>
         <CSVLink data={sortedBooks} filename={"books.csv"} style={{ textDecoration: 'none' }}>
@@ -122,14 +113,10 @@ const Dashboard = () => {
         </CSVLink>
       </div>
       <BookTable
-        books={sortedBooks}
+        books={paginatedBooks}
         order={order}
         orderBy={orderBy}
         onRequestSort={handleRequestSort}
-        onEdit={handleEditClick}
-        isEditing={isEditing}
-        onChange={handleEditChange}
-        onSave={handleSaveClick}
       />
       <TablePagination
         component="div"
